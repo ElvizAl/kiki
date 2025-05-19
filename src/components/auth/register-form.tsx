@@ -103,7 +103,7 @@ export function RegisterForm({
               </div>
             </div>
             <div className="flex flex-col gap-6">
-              <div className="grid gap-3">
+              <div className="grid gap-3 mt-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
@@ -116,12 +116,6 @@ export function RegisterForm({
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
                 </div>
                 <Input id="password" type="password" name="password"/>
                 {formState.errors?.password && <p className="text-sm text-red-500">{formState.errors.password.join(", ")}</p>}
@@ -134,7 +128,7 @@ export function RegisterForm({
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
-              <Link href="/login" className="underline underline-offset-4 hover:text-primary">
+              <Link href="/login" className="underline cursor-pointer underline-offset-4 hover:text-primary">
                 Login
               </Link>
             </div>

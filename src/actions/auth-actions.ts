@@ -43,7 +43,11 @@ export async function registerUser({
     return { success: true, }
   } catch (error) {
     console.error("Pendaftaran gagal:", error)
-    return { success: false, error: "Gagal mendaftar" }
+    return {
+      success: false,
+      error: "Gagal mendaftar",
+      details: error instanceof Error ? error.message : String(error)
+    }
   }
 }
 
