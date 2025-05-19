@@ -3,7 +3,7 @@
 import { cookies } from "next/headers"
 import type { Role } from "@/generated/prisma"
 import { prisma } from "@/db/prisma"
-import { hashPassword } from "@/lib/password"
+import { comparePasswords, hashPassword } from "@/lib/password"
 import { encryptData } from "@/lib/encryption"
 
 export async function registerUser({
@@ -73,4 +73,47 @@ export async function createSession(session: {
 export async function deleteSession(): Promise<void> {
   const cookieStore = await cookies()
   cookieStore.delete("session")
+}
+
+export async function loginUser({
+  email,
+  password,
+}: {
+  email: string
+  password: string
+}) {
+  try {
+    // Find user
+    const user = await prisma.user.findUnique({
+      where: { email },
+    })
+
+    if (!user) {
+      return { success: false, error: "Invalid email or password" }
+    }
+
+    // Verify password
+    const passwordMatch = await comparePasswords(password, user.password)
+    if (!passwordMatch) {
+      return { success: false, error: "Invalid email or password" }
+    }
+
+    // Create session
+    await createSession({
+      id: uuidv4(),
+      userId: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    })
+
+    return {
+      success: true,
+      role: user.role,
+      redirectTo: user.role === "ADMIN" ? "/dashboard" : "/",
+    }
+  } catch (error) {
+    console.error("Login error:", error)
+    return { success: false, error: "Failed to login" }
+  }
 }
