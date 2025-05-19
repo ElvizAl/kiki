@@ -3,7 +3,7 @@
 import { cookies } from "next/headers"
 import type { Role } from "@/generated/prisma"
 import { prisma } from "@/db/prisma"
-import { hashPassword, comparePasswords } from "@/lib/password"
+import { hashPassword } from "@/lib/password"
 import { encryptData } from "@/lib/encryption"
 
 export async function registerUser({
@@ -31,7 +31,7 @@ export async function registerUser({
     const hashedPassword = await hashPassword(password)
 
     // Buat user baru
-    const newUser = await prisma.user.create({
+    await prisma.user.create({
       data: {
         name,
         email,
@@ -40,7 +40,7 @@ export async function registerUser({
       },
     })
 
-    return { success: true }
+    return { success: true, }
   } catch (error) {
     console.error("Pendaftaran gagal:", error)
     return { success: false, error: "Gagal mendaftar" }
