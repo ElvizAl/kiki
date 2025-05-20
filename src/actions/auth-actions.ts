@@ -5,6 +5,7 @@ import type { Role } from "@/generated/prisma"
 import { prisma } from "@/db/prisma"
 import { comparePasswords, hashPassword } from "@/lib/password"
 import { encryptData } from "@/lib/encryption"
+import { getSession } from "@/lib/auth"
 
 export async function registerUser({
   name,
@@ -115,5 +116,20 @@ export async function loginUser({
   } catch (error) {
     console.error("Login error:", error)
     return { success: false, error: "Failed to login" }
+  }
+}
+
+export async function getUserSession() {
+  return getSession()
+}
+
+// Logout user - Modified to return a result instead of redirecting
+export async function logoutUser() {
+  try {
+    await deleteSession()
+    return { success: true }
+  } catch (error) {
+    console.error("Logout error:", error)
+    return { success: false, error: "Failed to logout" }
   }
 }
