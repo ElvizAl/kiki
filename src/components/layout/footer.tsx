@@ -17,17 +17,6 @@ export default function Footer() {
               Menyediakan buah segar berkualitas premium untuk keluarga Anda.
             </p>
           </div>
-
-          <FooterColumn
-            title="Produk"
-            links={[
-              { name: "Buah Lokal", href: "#" },
-              { name: "Buah Import", href: "#" },
-              { name: "Paket Buah", href: "#" },
-              { name: "Buah Potong", href: "#" },
-            ]}
-          />
-
           <FooterColumn
             title="Informasi"
             links={[

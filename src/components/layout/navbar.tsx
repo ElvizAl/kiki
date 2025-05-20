@@ -1,13 +1,24 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { ShoppingCart } from "lucide-react"
+import { LogOut, ShoppingCart, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { NavbarLink } from "@/components/layout/navbar-links"
+import { getUserSession } from "@/actions/auth-actions"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 
 
-export default function Navbar() {
+export default async function Navbar() {
+    const session = await getUserSession()
+
     return (
         <nav className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="max-w-7xl mx-auto px-4 border-b">
@@ -24,9 +35,32 @@ export default function Navbar() {
                                 <Button asChild variant="ghost" size="icon" className="w-5 h-5 cursor-pointer">
                                     <ShoppingCart className="w-5 h-5" />
                                 </Button>
-                                <Button asChild variant="default" className="px-4 py-1 rounded-md">
-                                    <Link href="/login">Login</Link>
-                                </Button>
+                                {session ? (
+                                    <div className="flex items-center gap-4">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="ghost" size="icon" className="">
+                                                    <User className="h-[1.2rem] w-[1.2rem]" />
+                                                    <span className="sr-only">User menu</span>
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuLabel>Hallo {session.name}</DropdownMenuLabel>
+                                                <DropdownMenuSeparator />
+                                                <DropdownMenuItem>
+                                                    <LogOut className="mr-2 h-4 w-4" />
+                                                    <span>Keluar</span>
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center gap-4">
+                                        <Link href="/login">
+                                            <Button variant="outline">Login</Button>
+                                        </Link>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
