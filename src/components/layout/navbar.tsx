@@ -1,10 +1,8 @@
-
-import Link from "next/link"
 import Image from "next/image"
 import { LogOut, ShoppingCart, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { NavbarLink } from "@/components/layout/navbar-links"
-import { getUserSession } from "@/actions/auth-actions"
+import { getUserSession, logoutUser } from "@/actions/auth-actions"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,11 +11,17 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
+import Link from "next/link"
+import { revalidatePath } from "next/cache"
 
 
 export default async function Navbar() {
     const session = await getUserSession()
+    async function handleLogout() {
+        "use server"
+        const keluar = await logoutUser();
+        revalidatePath("/login");
+    }
 
     return (
         <nav className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -48,8 +52,12 @@ export default async function Navbar() {
                                                 <DropdownMenuLabel>Hallo {session.name}</DropdownMenuLabel>
                                                 <DropdownMenuSeparator />
                                                 <DropdownMenuItem>
-                                                    <LogOut className="mr-2 h-4 w-4" />
-                                                    <span>Keluar</span>
+                                                    <form action={handleLogout}>
+                                                    <Button type="submit" variant="ghost">
+                                                        <LogOut className="mr-2 h-4 w-4" />
+                                                        <span>Keluar</span>
+                                                    </Button>
+                                                    </form>
                                                 </DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>

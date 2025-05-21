@@ -16,7 +16,7 @@ export default function TestimonialCard({ testimonial }: TestimonialCardProps) {
           <Star key={star} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
         ))}
       </div>
-      <p className="mb-4 italic">"{testimonial.comment}"</p>
+      <p className="mb-4 italic">{testimonial.comment}</p>
       <p className="font-semibold">{testimonial.name}</p>
     </Card>
   )
