@@ -1,7 +1,5 @@
 import { DollarSign, Package, ShoppingCart, Users } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Overview } from "@/components/dashboard/overview"
 

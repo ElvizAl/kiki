@@ -15,16 +15,119 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  role      Role     @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String         @id @default(uuid())
+  name         String
+  email        String         @unique
+  password     String
+  role         Role           @default(USER)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  // Hubungan yang ditambahkan
+  orders       Order[] // User dapat membuat/mengelola pesanan
+  customers    Customer[] // User dapat membuat/mengelola pelanggan
+  stockEntries StockHistory[] // User dapat memperbarui stok
 }
 
 enum Role {
   USER
   ADMIN
+}
+
+model Fruit {
+  id           String         @id @default(cuid())
+  name         String
+  price        Int
+  stock        Int
+  image        String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  orderItems   OrderItem[]
+  stockHistory StockHistory[] // Hubungan ditambahkan untuk melacak perubahan stok
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?  @unique
+  phone     String?
+  address   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+  // Hubungan ditambahkan untuk melacak user mana yang membuat/mengelola pelanggan ini
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  orderNumber String      @unique
+  customerId  String
+  customer    Customer    @relation(fields: [customerId], references: [id])
+  status      OrderStatus @default(PROCESSING)
+  total       Float
+  payment     PaymentType
+  notes       String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+  // Hubungan ditambahkan untuk melacak user mana yang membuat pesanan ini
+  userId      String?
+  user        User?       @relation(fields: [userId], references: [id])
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  fruitId   String
+  fruit     Fruit    @relation(fields: [fruitId], references: [id])
+  quantity  Int
+  price     Float
+  subtotal  Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orderId])
+  @@index([fruitId])
+}
+
+enum OrderStatus {
+  PROCESSING
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentType {
+  CASH
+  TRANSFER
+  CREDIT_CARD
+  DIGITAL_WALLET
+}
+
+model StockHistory {
+  id          String   @id @default(cuid())
+  fruitId     String
+  fruit       Fruit    @relation(fields: [fruitId], references: [id])
+  quantity    Int
+  type        String // "in" atau "out"
+  description String?
+  createdAt   DateTime @default(now())
+  // Hubungan ditambahkan untuk melacak user mana yang membuat perubahan stok ini
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+
+  @@index([fruitId])
+  @@index([userId])
+}
+
+model Analytics {
+  id            String   @id @default(cuid())
+  date          DateTime @unique
+  totalSales    Float
+  orderCount    Int
+  customerCount Int
+  topSellingId  String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }

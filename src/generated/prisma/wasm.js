@@ -130,6 +130,72 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.FruitScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  price: 'price',
+  stock: 'stock',
+  image: 'image',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CustomerScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  address: 'address',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+};
+
+exports.Prisma.OrderScalarFieldEnum = {
+  id: 'id',
+  orderNumber: 'orderNumber',
+  customerId: 'customerId',
+  status: 'status',
+  total: 'total',
+  payment: 'payment',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+};
+
+exports.Prisma.OrderItemScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  fruitId: 'fruitId',
+  quantity: 'quantity',
+  price: 'price',
+  subtotal: 'subtotal',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.StockHistoryScalarFieldEnum = {
+  id: 'id',
+  fruitId: 'fruitId',
+  quantity: 'quantity',
+  type: 'type',
+  description: 'description',
+  createdAt: 'createdAt',
+  userId: 'userId'
+};
+
+exports.Prisma.AnalyticsScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  totalSales: 'totalSales',
+  orderCount: 'orderCount',
+  customerCount: 'customerCount',
+  topSellingId: 'topSellingId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -139,13 +205,37 @@ exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
 exports.Role = exports.$Enums.Role = {
   USER: 'USER',
   ADMIN: 'ADMIN'
 };
 
+exports.OrderStatus = exports.$Enums.OrderStatus = {
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.PaymentType = exports.$Enums.PaymentType = {
+  CASH: 'CASH',
+  TRANSFER: 'TRANSFER',
+  CREDIT_CARD: 'CREDIT_CARD',
+  DIGITAL_WALLET: 'DIGITAL_WALLET'
+};
+
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Fruit: 'Fruit',
+  Customer: 'Customer',
+  Order: 'Order',
+  OrderItem: 'OrderItem',
+  StockHistory: 'StockHistory',
+  Analytics: 'Analytics'
 };
 
 /**

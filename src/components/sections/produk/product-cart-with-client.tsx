@@ -31,7 +31,7 @@ export default function ProductCardWithClient({ product }: ProductCardProps) {
 
   const handleAddToCart = () => {
     if (isOutOfStock) {
-      toast.error ("Stok tidak cukup")
+      toast.error("Stok tidak cukup")
       return
     }
 
@@ -54,8 +54,14 @@ export default function ProductCardWithClient({ product }: ProductCardProps) {
 
   return (
     <div className="bg-background rounded-md overflow-hidden h-[280px] flex flex-col border shadow-sm hover:shadow-md transition-shadow">
-      <div className="relative h-36 w-full">
-        <Image src={product.image || "/placeholder.svg"} alt={product.name} fill className="object-cover" />
+      <div className="relative flex h-40 w-full items-center justify-center text-center">
+        <Image
+          src={product.image || "/placeholder.svg"}
+          alt={product.name}
+          width={100}
+          height={80}
+          style={{ width: 'auto', height: 'auto' }}
+        />
         {product.stock <= 5 && (
           <span className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
             Stok Terbatas

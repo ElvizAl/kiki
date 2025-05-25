@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
 import { revalidatePath } from "next/cache"
+import CartButton from "../sections/produk/cart-button"
 
 
 export default async function Navbar() {
@@ -36,9 +37,7 @@ export default async function Navbar() {
                     <div className="flex items-center">
                         <div className="flex-row items-center space-x-4">
                             <div className="flex items-center space-x-4">
-                                <Button asChild variant="ghost" size="icon" className="w-5 h-5 cursor-pointer">
-                                    <ShoppingCart className="w-5 h-5" />
-                                </Button>
+                                <CartButton />
                                 {session ? (
                                     <div className="flex items-center gap-4">
                                         <DropdownMenu>
